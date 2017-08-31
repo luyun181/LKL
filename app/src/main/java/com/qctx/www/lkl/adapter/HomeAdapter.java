@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.qctx.www.lkl.CommonScanActivity;
 import com.qctx.www.lkl.R;
+import com.qctx.www.lkl.activity.CommonScanActivity;
 
 import java.util.List;
 

@@ -28,7 +28,7 @@
         </activity>
         <activity android:name=".activity.ScanerActivity" />
         <activity
-            android:name=".CommonScanActivity"
+            android:name=".activity.CommonScanActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".activity.PayActivity"></activity>

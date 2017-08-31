@@ -39,4 +39,20 @@ public interface Constant {
      */
     public static final int REQUEST_SCAN_MODE_ALL_MODE = 0X300;
 
+    /*
+ * web service
+ */
+//	// name space
+//	public static final String NAME_SPACE = "http://sharetime.com/lawyer/service/PoliceServiceSvc";
+//	// param name space
+    public static final String PARAM_NAME_SPACE = "http://oup.sharetime.com";
+//	// end point
+
+    public static final String SYSTEM = "";
+
+    public static final String SERVICE_URL = "http://120.27.19.71:8089/server/services/baUserSvc";
+
+    public static final String CHECK_USER_METHOD = "userCheckIn";
+    public static final String ERROR = "暂无数据";
+
 }

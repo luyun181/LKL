@@ -57,6 +57,7 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
     final int PHOTOREQUESTCODE = 1111;
 
     Button rescan;
+    BadgeView badge;
     ImageView scan_image;
     ImageView authorize_return;
     private int scanMode;//扫描模型（条形，二维码，全部）
@@ -79,7 +80,6 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
     }
 
     void initView() {
-        tv_count = (TextView) findViewById(R.id.tv_count);
         rescan = (Button) findViewById(R.id.service_register_rescan);
         scan_image = (ImageView) findViewById(R.id.scan_image);
         authorize_return = (ImageView) findViewById(R.id.authorize_return);
@@ -114,6 +114,7 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
         authorize_return.setOnClickListener(this);
         //构造出扫描管理器
         scanManager = new ScanManager(this, scanPreview, scanContainer, scanCropView, scanLine, scanMode, this);
+        badge = new BadgeView(this, qrcode_g_gallery);
     }
 
     @Override
@@ -154,7 +155,6 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
         scan_image.setVisibility(View.VISIBLE);
         tv_scan_result.setVisibility(View.VISIBLE);
         tv_scan_result.setText("结果：" + rawResult.getText());
-        BadgeView badge = new BadgeView(this, qrcode_g_gallery);
         if (rawResult.getText() != null) {
             i++;
             badge.setText(i + "");
@@ -213,7 +213,8 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
         switch (v.getId()) {
             case R.id.qrcode_g_gallery:
 //                showPictures(PHOTOREQUESTCODE);
-
+                startActivity(new Intent(CommonScanActivity.this,PayActivity.class));
+                finish();
                 break;
             case R.id.iv_light:
                 scanManager.switchLight();
