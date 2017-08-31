@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qctx.www.lkl.R;
+import com.qctx.www.lkl.defineview.AmountView;
 
 import java.util.List;
 
@@ -49,14 +50,22 @@ public class PayAdapter extends RecyclerView.Adapter {
         TextView tv_th_name, tv_th_price;
 
         public LinearLayout  ll_hidden;
-        public CardView ll_item;
-
+        public LinearLayout ll_item;
+        private AmountView amountView;
         public ViewHolder(View itemView) {
             super(itemView);
+            amountView = (AmountView) itemView.findViewById(R.id.amount_view);
             tv_th_name = (TextView) itemView.findViewById(R.id.tv_th_name);
             tv_th_price = (TextView) itemView.findViewById(R.id.tv_th_price);
-            ll_item = (CardView) itemView.findViewById(R.id.ll_item);
+            ll_item = (LinearLayout) itemView.findViewById(R.id.ll_item);
             ll_hidden = (LinearLayout) itemView.findViewById(R.id.ll_hidden);
+            amountView.setGoods_storage(200);
+            amountView.setOnAmountChangeListener(new AmountView.OnAmountChangeListener() {
+                @Override
+                public void onAmountChange(View view, int amount) {
+
+                }
+            });
         }
     }
 }

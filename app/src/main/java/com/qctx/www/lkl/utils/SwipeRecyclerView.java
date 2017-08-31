@@ -34,7 +34,7 @@ public class SwipeRecyclerView extends RecyclerView{
     private int curSelectPosition;
     private Scroller mScroller;
 
-    private CardView mCurItemLayout, mLastItemLayout;
+    private LinearLayout mCurItemLayout, mLastItemLayout;
     private LinearLayout mLlHidden;//隐藏部分
     private TextView mItemContent;
     private LinearLayout mItemDelete;
