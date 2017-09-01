@@ -24,8 +24,11 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         mContext = this;
         imageView = (ImageView) findViewById(R.id.iv_show);
-        Glide.with(mContext).load("http://120.27.19.71:8080/erp/images/app/qdy.jpg").into(imageView);
-        new CountDownTimer(2000, 1000) {
+        Glide.with(mContext)
+                .load("http://120.27.19.71:8080/erp/images/app/qdy.jpg")
+                .placeholder(R.drawable.sp)
+                .into(imageView);
+        new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
 
