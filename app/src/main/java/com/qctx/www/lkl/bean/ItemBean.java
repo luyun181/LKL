@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 
 public class ItemBean implements Serializable {
+
     private String itemName;
     private double price;
     private int count;

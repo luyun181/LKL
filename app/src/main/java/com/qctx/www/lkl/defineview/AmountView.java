@@ -67,7 +67,9 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
             etAmount.setTextSize(tvTextSize);
         }
     }
-
+    public void setEtAmount(String ss){
+        etAmount.setText(ss);
+    }
     public void setOnAmountChangeListener(OnAmountChangeListener onAmountChangeListener) {
         this.mListener = onAmountChangeListener;
     }

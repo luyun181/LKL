@@ -74,6 +74,7 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
     final int PHOTOREQUESTCODE = 1111;
     ProgressDialog dialog;
 
+    ItemBean itemBean = null;
     Button rescan;
     BadgeView badge;
     ImageView scan_image;
@@ -236,7 +237,7 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
             case R.id.qrcode_g_gallery:
                 if (i != 0) {
                     Intent intent = new Intent(CommonScanActivity.this, PayActivity.class);
-                    intent.putExtra("proList",proList);
+                    intent.putExtra("proList", proList);
                     startActivity(intent);
                     finish();
                 } else {
@@ -317,20 +318,24 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
                     badge.setText(i + "");
                     badge.show();
                 }
-                ItemBean itemBean = new ItemBean();
-                int count = map.containsKey(rawResultText) ? map.get(rawResultText) : 1;
-                map.put(rawResultText, count + 1);
-
                 Gson gson = new Gson();
                 ShangPinInfo shangPinInfo = gson.fromJson(mresult, ShangPinInfo.class);
                 double price = shangPinInfo.get售价();
                 String productName = shangPinInfo.get商品名称();
-                itemBean.setCount(count);
-                itemBean.setItemName(productName);
-                itemBean.setPrice(price);
-                proList.add(itemBean);
+                int count = map.containsKey(rawResultText) ? map.get(rawResultText) : 0;
+                if (!map.containsKey(rawResultText)) {
+                    itemBean = new ItemBean();
+                    itemBean.setCount(count+1);
+                    itemBean.setItemName(productName);
+                    itemBean.setPrice(price);
+                }else {
+                    itemBean.setCount(count+1);
+                }
+                map.put(rawResultText, count + 1);
 
-//                ToastUtils.showShort(CommonScanActivity.this,"售价：" + count);
+                if (!proList.contains(itemBean)) {
+                    proList.add(itemBean);
+                }
             } else {
                 ToastUtils.showShort(CommonScanActivity.this, "无此商品");
             }
