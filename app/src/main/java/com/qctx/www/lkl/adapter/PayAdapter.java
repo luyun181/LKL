@@ -1,7 +1,6 @@
 package com.qctx.www.lkl.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qctx.www.lkl.R;
+import com.qctx.www.lkl.bean.ItemBean;
 import com.qctx.www.lkl.defineview.AmountView;
 
 import java.util.List;
@@ -20,9 +20,9 @@ import java.util.List;
 
 public class PayAdapter extends RecyclerView.Adapter {
     private Context mContext;
-    private List<String> list;
+    private List<ItemBean> list;
 
-    public PayAdapter(Context mContext, List<String> list) {
+    public PayAdapter(Context mContext, List<ItemBean> list) {
         this.mContext = mContext;
         this.list = list;
     }
@@ -37,7 +37,8 @@ public class PayAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolder) {
-            ((ViewHolder) holder).tv_th_name.setText(list.get(position));
+            ((ViewHolder) holder).tv_th_name.setText(list.get(position).getItemName());
+            ((ViewHolder) holder).tv_th_price.setText((int) list.get(position).getPrice());
         }
     }
 

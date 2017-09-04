@@ -16,12 +16,15 @@
 package com.qctx.www.lkl.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
@@ -31,14 +34,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.zxing.Result;
 import com.qctx.www.lkl.R;
+import com.qctx.www.lkl.bean.ItemBean;
+import com.qctx.www.lkl.bean.ShangPinInfo;
 import com.qctx.www.lkl.utils.BadgeView;
 import com.qctx.www.lkl.utils.Constant;
+import com.qctx.www.lkl.utils.ToastUtils;
 import com.qctx.www.lkl.zxing.ScanListener;
 import com.qctx.www.lkl.zxing.ScanManager;
 import com.qctx.www.lkl.zxing.decode.DecodeThread;
 import com.qctx.www.lkl.zxing.decode.Utils;
+
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -55,6 +72,7 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
     TextView qrcode_g_gallery;
     TextView qrcode_ic_back;
     final int PHOTOREQUESTCODE = 1111;
+    ProgressDialog dialog;
 
     Button rescan;
     BadgeView badge;
@@ -65,8 +83,10 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
     TextView title, tv_count;
     TextView scan_hint;
     TextView tv_scan_result;
+    String rawResultText;
     int i = 0;
-
+    ArrayList<ItemBean> proList = new ArrayList<>();
+    Map<String, Integer> map = new HashMap<>();
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -138,7 +158,9 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
         //扫描成功后，扫描器不会再连续扫描，如需连续扫描，调用reScan()方法。
         //scanManager.reScan();
 //		Toast.makeText(that, "result="+rawResult.getText(), Toast.LENGTH_LONG).show();
-
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("");
+        dialog.setCancelable(false);
         if (!scanManager.isScanning()) { //如果当前不是在扫描状态
             //设置再次扫描按钮出现
             rescan.setVisibility(View.VISIBLE);
@@ -154,14 +176,14 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
         rescan.setVisibility(View.VISIBLE);
         scan_image.setVisibility(View.VISIBLE);
         tv_scan_result.setVisibility(View.VISIBLE);
-        tv_scan_result.setText("结果：" + rawResult.getText());
-        if (rawResult.getText() != null) {
-            i++;
-            badge.setText(i + "");
-            badge.show();
-           /* tv_count.setText(i+"");
-            tv_count.setVisibility(View.VISIBLE);*/
+        rawResultText = rawResult.getText();
+        tv_scan_result.setText("结果：" + rawResultText);
+        if (rawResult != null) {
+            dialog.show();
+            QueryTask task = new QueryTask();
+            task.execute();
         }
+
     }
 
     void startScan() {
@@ -212,9 +234,15 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.qrcode_g_gallery:
-//                showPictures(PHOTOREQUESTCODE);
-                startActivity(new Intent(CommonScanActivity.this,PayActivity.class));
-                finish();
+                if (i != 0) {
+                    Intent intent = new Intent(CommonScanActivity.this, PayActivity.class);
+                    intent.putExtra("proList",proList);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    ToastUtils.showShort(this, "请扫码添加商品");
+                }
+
                 break;
             case R.id.iv_light:
                 scanManager.switchLight();
@@ -230,6 +258,82 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
                 break;
             default:
                 break;
+        }
+    }
+
+    private String getShangpinInfo() {
+        String s = "";
+        SoapObject request = new SoapObject(Constant.SHANGPIN_INFO_PARAM_NAME_SPACE, Constant.GET_SHANGPIN_INFO);
+        // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
+        request.addProperty("jsonstr", "{\"商品条形码\"" + ":" + "\"" + rawResultText + "\"}");
+
+        //创建SoapSerializationEnvelope 对象，同时指定soap版本号(之前在wsdl中看到的)
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapSerializationEnvelope.VER11);
+        envelope.bodyOut = request;//由于是发送请求，所以是设置bodyOut
+        envelope.dotNet = true;//由于是.net开发的webservice，所以这里要设置为true
+
+        HttpTransportSE httpTransportSE = new HttpTransportSE(Constant.INFO_SERVICE_URL);
+        try {
+            httpTransportSE.call(null, envelope);//调用
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+
+        // 获取返回的数据
+        SoapObject object = (SoapObject) envelope.bodyIn;
+//        Object bodyIn = envelope.bodyIn;
+        // 获取返回的结果
+//       result= bodyIn.toString();
+        s = object.getProperty("return").toString();
+        Log.d("debug", s);
+        return s;
+    }
+
+    class QueryTask extends AsyncTask<String, Integer, String> {
+        String s;
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                s = getShangpinInfo();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //将结果返回给onPostExecute方法
+            return s;
+        }
+
+        @Override
+        //此方法可以在主线程改变UI
+        protected void onPostExecute(String mresult) {
+            // 将WebService返回的结果显示在TextView中
+            dialog.dismiss();
+            if (mresult != null) {
+                if (rawResultText != null) {
+                    i++;
+                    badge.setText(i + "");
+                    badge.show();
+                }
+                ItemBean itemBean = new ItemBean();
+                int count = map.containsKey(rawResultText) ? map.get(rawResultText) : 1;
+                map.put(rawResultText, count + 1);
+
+                Gson gson = new Gson();
+                ShangPinInfo shangPinInfo = gson.fromJson(mresult, ShangPinInfo.class);
+                double price = shangPinInfo.get售价();
+                String productName = shangPinInfo.get商品名称();
+                itemBean.setCount(count);
+                itemBean.setItemName(productName);
+                itemBean.setPrice(price);
+                proList.add(itemBean);
+
+//                ToastUtils.showShort(CommonScanActivity.this,"售价：" + count);
+            } else {
+                ToastUtils.showShort(CommonScanActivity.this, "无此商品");
+            }
         }
     }
 

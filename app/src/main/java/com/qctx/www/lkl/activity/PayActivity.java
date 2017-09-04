@@ -12,10 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qctx.www.lkl.R;
 import com.qctx.www.lkl.adapter.PayAdapter;
+import com.qctx.www.lkl.bean.ItemBean;
 import com.qctx.www.lkl.utils.OnRecyclerItemClickListener;
 import com.qctx.www.lkl.utils.SwipeRecyclerView;
 
@@ -44,7 +44,9 @@ public class PayActivity extends AppCompatActivity {
         list.add("扫码");
         list.add("功能1");
         list.add("功能2");
-        final PayAdapter payAd = new PayAdapter(mContext,list);
+        final ArrayList<ItemBean> porList = (ArrayList<ItemBean>) getIntent().getSerializableExtra("porList");
+
+        final PayAdapter payAd = new PayAdapter(mContext,porList);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(payAd);
@@ -98,11 +100,11 @@ public class PayActivity extends AppCompatActivity {
                 int toPosition = target.getAdapterPosition();
                 if (fromPosition < toPosition) {
                     for (int i = fromPosition; i < toPosition; i++) {
-                        Collections.swap(list, i, i + 1);
+                        Collections.swap(porList, i, i + 1);
                     }
                 } else {
                     for (int i = fromPosition; i > toPosition; i--) {
-                        Collections.swap(list, i, i - 1);
+                        Collections.swap(porList, i, i - 1);
                     }
                 }
                 payAd.notifyItemMoved(fromPosition, toPosition);
@@ -156,7 +158,7 @@ public class PayActivity extends AppCompatActivity {
         recyclerView.setRightClickListener(new SwipeRecyclerView.OnRightClickListener() {
             @Override
             public void onRightClick(int position, String id) {
-                list.remove(position);
+                porList.remove(position);
                 payAd.notifyItemRemoved(position);
 //                payAd.notifyDataSetChanged();
             }

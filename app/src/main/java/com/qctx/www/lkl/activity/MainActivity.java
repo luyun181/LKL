@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String LoginCheck() {
         String s = "";
-        SoapObject request = new SoapObject(Constant.PARAM_NAME_SPACE, Constant.CHECK_USER_METHOD);
+        SoapObject request = new SoapObject(Constant.LOGIN_PARAM_NAME_SPACE, Constant.CHECK_USER_METHOD);
         // 设置需调用WebService接口需要传入的两个参数mobileCode、userId
         request.addProperty("name", userName);
         request.addProperty("pwd", password);
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         envelope.bodyOut = request;//由于是发送请求，所以是设置bodyOut
         envelope.dotNet = true;//由于是.net开发的webservice，所以这里要设置为true
 
-        HttpTransportSE httpTransportSE = new HttpTransportSE(Constant.SERVICE_URL);
+        HttpTransportSE httpTransportSE = new HttpTransportSE(Constant.LOGIN_SERVICE_URL);
         try {
             httpTransportSE.call(null, envelope);//调用
         } catch (IOException e) {

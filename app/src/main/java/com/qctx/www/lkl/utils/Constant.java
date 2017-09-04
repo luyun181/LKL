@@ -45,14 +45,17 @@ public interface Constant {
 //	// name space
 //	public static final String NAME_SPACE = "http://sharetime.com/lawyer/service/PoliceServiceSvc";
 //	// param name space
-    public static final String PARAM_NAME_SPACE = "http://oup.sharetime.com";
+    public static final String LOGIN_PARAM_NAME_SPACE = "http://oup.sharetime.com";
+    public static final String SHANGPIN_INFO_PARAM_NAME_SPACE = "http://erp.sharetime.com";
 //	// end point
 
     public static final String SYSTEM = "";
 
-    public static final String SERVICE_URL = "http://120.27.19.71:8089/server/services/baUserSvc";
+    public static final String LOGIN_SERVICE_URL = "http://120.27.19.71:8089/server/services/baUserSvc";
+    public static final String INFO_SERVICE_URL = "http://120.27.19.71:8089/server/services/erpBaseSvc";
 
     public static final String CHECK_USER_METHOD = "userCheckIn";
+    public static final String GET_SHANGPIN_INFO = "getShangpinInfo";
     public static final String ERROR = "暂无数据";
 
 }
