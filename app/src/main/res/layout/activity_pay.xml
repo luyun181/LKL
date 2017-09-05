@@ -27,7 +27,8 @@
             android:id="@+id/tv_hj"
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="center"
             android:layout_centerVertical="true"
             android:text="合计："
             />
@@ -35,17 +36,23 @@
             android:id="@+id/tv_count"
             android:layout_toRightOf="@+id/tv_hj"
             android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
             android:textColor="#f50606"
             android:textSize="18sp"
-            android:text="xxxx"/>
+            android:text="0.0"/>
         <Button
             android:id="@+id/btn_all"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="结算"/>
+            android:text="扫码"/>
+        <Button
+            android:id="@+id/bt_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/btn_all"
+            android:text="支付码"/>
     </RelativeLayout>
 </LinearLayout>

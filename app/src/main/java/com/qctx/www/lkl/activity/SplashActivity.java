@@ -1,6 +1,5 @@
 package com.qctx.www.lkl.activity;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,19 +35,11 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-               Intent intent = setComponent();
 //                startActivity(intent);
                 startActivity(new Intent(mContext,MainActivity.class));
                 finish();
             }
         }.start();
     }
-    public Intent setComponent(){
-        ComponentName component = new ComponentName(
-                "com.lkl.cloudpos.payment",
-                "com.lkl.cloudpos.payment.activity.MainMenuActivity");
-        Intent intent = new Intent();
-        intent.setComponent(component);
-        return intent;
-    }
+
 }

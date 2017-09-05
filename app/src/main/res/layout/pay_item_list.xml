@@ -16,6 +16,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <CheckBox
+                android:id="@+id/ck_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingLeft="3dp" />
+
             <TextView
                 android:id="@+id/tv_th_name"
                 android:layout_width="wrap_content"
@@ -37,22 +44,24 @@
                 android:text="price"
                 android:textColor="#f90404"
                 android:textSize="18sp" />
-           <LinearLayout
-               android:layout_alignParentRight="true"
-               android:layout_alignBottom="@id/tv_th_price"
-               android:layout_marginRight="20dp"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content">
-               <com.qctx.www.lkl.defineview.AmountView
-                   android:id="@+id/amount_view"
-                   android:layout_width="wrap_content"
-                   android:layout_height="26dp"
-                   android:layout_centerInParent="true"
-                   android:layout_gravity="right"
-                   app:btnTextSize="14sp"
-                   app:btnWidth="36dp"
-                   app:tvWidth="50dp"/>
-           </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tv_th_price"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp">
+
+                <com.qctx.www.lkl.defineview.AmountView
+                    android:id="@+id/amount_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="right"
+                    app:btnTextSize="14sp"
+                    app:btnWidth="36dp"
+                    app:tvWidth="50dp" />
+            </LinearLayout>
         </RelativeLayout>
 
         <!-- 屏幕右侧外边部分，正常时在屏幕中处于不可见 -->

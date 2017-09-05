@@ -11,6 +11,24 @@ public class ItemBean implements Serializable {
     private String itemName;
     private double price;
     private int count;
+    private String proCode;
+    private boolean checked;
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public String getProCode() {
+        return proCode;
+    }
+
+    public void setProCode(String proCode) {
+        this.proCode = proCode;
+    }
 
     public int getCount() {
         return count;

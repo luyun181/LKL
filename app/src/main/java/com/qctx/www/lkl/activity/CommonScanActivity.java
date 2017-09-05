@@ -322,12 +322,15 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
                 ShangPinInfo shangPinInfo = gson.fromJson(mresult, ShangPinInfo.class);
                 double price = shangPinInfo.get售价();
                 String productName = shangPinInfo.get商品名称();
+                String proCode = shangPinInfo.get商品编号();
                 int count = map.containsKey(rawResultText) ? map.get(rawResultText) : 0;
                 if (!map.containsKey(rawResultText)) {
                     itemBean = new ItemBean();
                     itemBean.setCount(count+1);
                     itemBean.setItemName(productName);
                     itemBean.setPrice(price);
+                    itemBean.setProCode(proCode);
+                    itemBean.setChecked(true);
                 }else {
                     itemBean.setCount(count+1);
                 }
