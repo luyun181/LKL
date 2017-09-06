@@ -114,7 +114,7 @@
         <Button
             android:id="@+id/service_register_rescan"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_below="@id/qrcode_ic_back"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
@@ -123,7 +123,7 @@
             android:padding="5dp"
             android:text="再次扫描"
             android:textColor="@android:color/white"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:visibility="visible"
 
             />
