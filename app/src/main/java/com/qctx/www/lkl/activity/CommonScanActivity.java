@@ -323,6 +323,7 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
                 double price = shangPinInfo.get售价();
                 String productName = shangPinInfo.get商品名称();
                 String proCode = shangPinInfo.get商品编号();
+                String unit = shangPinInfo.get包装单位();
                 int count = map.containsKey(rawResultText) ? map.get(rawResultText) : 0;
                 if (!map.containsKey(rawResultText)) {
                     itemBean = new ItemBean();
@@ -331,6 +332,7 @@ public final class CommonScanActivity extends Activity implements ScanListener, 
                     itemBean.setPrice(price);
                     itemBean.setProCode(proCode);
                     itemBean.setChecked(true);
+                    itemBean.setUnit(unit);
                 }else {
                     itemBean.setCount(count+1);
                 }

@@ -27,23 +27,31 @@
                 android:id="@+id/tv_th_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="40dp"
                 android:layout_marginTop="10dp"
-                android:text="xxx"
+                android:text="name"
                 android:textColor="@color/scan_bg"
-                android:textSize="20sp" />
-
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_th_name"
+                android:layout_alignBottom="@id/tv_th_name"
+                android:layout_marginLeft="30dp"
+                android:textSize="15sp"
+                android:text="unit"/>
             <TextView
                 android:id="@+id/tv_th_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_th_name"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="40dp"
                 android:layout_marginTop="15dp"
                 android:text="price"
                 android:textColor="#f90404"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -55,7 +63,7 @@
                 <com.qctx.www.lkl.defineview.AmountView
                     android:id="@+id/amount_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="26dp"
+                    android:layout_height="24dp"
                     android:layout_centerInParent="true"
                     android:layout_gravity="right"
                     app:btnTextSize="14sp"

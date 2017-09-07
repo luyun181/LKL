@@ -13,6 +13,15 @@ public class ItemBean implements Serializable {
     private int count;
     private String proCode;
     private boolean checked;
+    private String unit;
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
     public boolean isChecked() {
         return checked;

@@ -13,11 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.qctx.www.lkl.R;
 import com.qctx.www.lkl.utils.Constant;
+import com.qctx.www.lkl.utils.SharedPreferencesUtil;
 
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -37,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String userName;
     private String password;
     private ProgressDialog dialog;
-
+    private CheckBox ck_rem;
+    private boolean checked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mContext = this;
         userNameWrapper = (TextInputLayout) findViewById(usernameWrapper);
         passwordWrapper = (TextInputLayout) findViewById(R.id.passwordWrapper);
+        ck_rem = (CheckBox) findViewById(R.id.ck_rem);
         userNameWrapper.setHint("用户名");
         passwordWrapper.setHint("密码");
 
@@ -59,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         hideError(uerName, userNameWrapper);
         hideError(Password, passwordWrapper);
 
+        ck_rem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                checked = b;
+            }
+        });
         btn = (Button) findViewById(R.id.btn);
         btn.setOnClickListener(this);
     }
@@ -67,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn:
-                dialog = new ProgressDialog(this);
+                dialog = new ProgressDialog(mContext);
                 dialog.setMessage("登录中。。。");
                 dialog.show();
                 userName = userNameWrapper.getEditText().getText().toString();
@@ -158,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return s;
     }
 
-    class QueryTask extends AsyncTask<String, Integer, String> {
+    public class QueryTask extends AsyncTask<String, Integer, String> {
         String s;
 
         @Override
@@ -179,9 +190,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 将WebService返回的结果显示在TextView中
             if (mresult!=null&&mresult.length() > 0) {
                 dialog.dismiss();
-                // 跳转到首页
                 Intent intent = new Intent(MainActivity.this, ScanerActivity.class);
                 startActivity(intent);
+                if (checked){
+                    SharedPreferencesUtil.setParam(mContext,"user",userName);
+                    SharedPreferencesUtil.setParam(mContext,"password",password);
+                    SharedPreferencesUtil.setParam(mContext,"isLogin",true);
+                }else {
+                    SharedPreferencesUtil.setParam(mContext,"user","");
+                    SharedPreferencesUtil.setParam(mContext,"password","");
+                    SharedPreferencesUtil.setParam(mContext,"isLogin",false);
+                }
+
                 finish();
             }else {
                 dialog.dismiss();

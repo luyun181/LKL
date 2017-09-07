@@ -46,6 +46,7 @@ public class PayAdapter extends RecyclerView.Adapter {
             ((ViewHolder) holder).tv_th_price.setText("￥:" + itemBean.getPrice());
             ((ViewHolder) holder).amountView.setEtAmount(itemBean.getCount() + "");
             ((ViewHolder) holder).checkBox.setChecked(itemBean.isChecked());
+            ((ViewHolder) holder).tv_unit.setText("单位："+itemBean.getUnit());
 
              int number = Integer.valueOf(((ViewHolder) holder).amountView.getEtAmout());
             PayActivity.UpView(itemBean.isChecked(), itemBean.getProCode(), number);
@@ -79,7 +80,7 @@ public class PayAdapter extends RecyclerView.Adapter {
         public LinearLayout ll_item;
         private AmountView amountView;
         private CheckBox checkBox;
-
+        private TextView tv_unit;
         public ViewHolder(View itemView) {
             super(itemView);
             amountView = (AmountView) itemView.findViewById(R.id.amount_view);
@@ -88,6 +89,7 @@ public class PayAdapter extends RecyclerView.Adapter {
             ll_item = (LinearLayout) itemView.findViewById(R.id.ll_item);
             ll_hidden = (LinearLayout) itemView.findViewById(R.id.ll_hidden);
             checkBox = (CheckBox) itemView.findViewById(R.id.ck_check);
+            tv_unit = (TextView) itemView.findViewById(R.id.tv_unit);
             amountView.setGoods_storage(1000);
         }
     }
